@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-router.get("/", (req, res) => {
-  res.status(200).send("your profile!");
-});
+const passport = require("passport");
+
+router.get("/",passport.authenticate("jwd", { session: false }),(req, res) => {
+    res.status(200).send({ isTokenVerified: true });
+  }
+);
 module.exports = router;

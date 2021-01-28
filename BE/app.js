@@ -7,6 +7,7 @@ const express = require("express");
 const db = require("./database/configs");
 
 //require auth
+require('./auth')
 
 //app config
 const app = express();

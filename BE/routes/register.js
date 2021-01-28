@@ -8,7 +8,7 @@ router.post("/", (req, res) => {
   bcrypt
     .hash(req.body.password, 8)
     .then(hashedPassword => {
-      User.create({
+      User.create({   //User.create => User.findOrCreate
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         password: hashedPassword,
