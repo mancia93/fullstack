@@ -4,13 +4,12 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 router.post("/", (req, res, next) => {
-  //login to passport to login
   passport.authenticate("local", (err, user, info) => {
     if (err) res.status(500).send(err);
-    if (!user) res.status(400).send(err);
-
+    if (!user) res.status(400).send(info);
+    // generate the token with a secret coming from .env
     const token = jwt.sign(JSON.stringify(user), process.env.APP_SECRET);
-
+    // create the user object we will send with the proper naming
     const securedFinalUser = {
       firstname: user.firstname,
       lastname: user.lastname,

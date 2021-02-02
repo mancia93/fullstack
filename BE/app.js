@@ -1,43 +1,42 @@
 require("dotenv").config();
 
-//dependencies
+// app dependencies
 const express = require("express");
-
-//require db
+// require the db
 const db = require("./database/configs");
+// require the auth folder
+require("./auth");
 
-//require auth
-require('./auth')
-
-//app config
+// app config related stuff
 const app = express();
 
-//route for register, login and profile
+// create route for register, login and profile
 const loginRouter = require("./routes/login");
 const registerRouter = require("./routes/register");
 const profileRouter = require("./routes/profile");
 
-//db connection
+// set the DB connection
 db.connector
   .sync()
-  .then(() => console.log(`Correctly sync to DB`))
-  .catch(err => console.error(`DB sync failed: ${err}`));
+  .then(() => console.log("found current DB"))
+  .catch(error => console.error(`sync failed: ${error}`));
 
-//app global middlewares
+// app global middlewares
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-//set the routes
+// set the routes
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use("/profile", profileRouter);
 
-//global middleware for errors
+// global middleware for errors
 app.use((req, res, next) => {
   let err = new Error("Not found");
   err.status = 404;
   next(err);
 });
 
-//exporting app
+// need to export app
 module.exports = app;
+
